@@ -34,7 +34,7 @@ def signup_page():
         if User.query.filter_by(username = 'admin').first():
             return 'User already Exists.'
         else:
-            user = User(username = 'admin', password = 'Acord123@', role = 'admin')
+            user = User(username = 'admin', password = 'admin123@', role = 'admin')
             db.session.add(user)
             db.session.commit()
             return 'Pass'

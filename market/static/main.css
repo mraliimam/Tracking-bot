@@ -1,5 +1,5 @@
 body{
-    background: linear-gradient(to bottom right, #72b2e4, #92e1e2);
+    background: linear-gradient(to bottom right, #72e4c6, #92e2ca);
     /* background-color: #3bd4cc; */
     color: black;
     min-height: 100vh;
@@ -81,7 +81,7 @@ body{
 }
 
 .tile-input:checked + .tile-label {
-    border: 2px solid #007bff;
+    border: 2px solid #34d293;
   }
 
   .mainupload
@@ -110,7 +110,7 @@ text-align:center;
 
 
 .upload-button {
-            background-color: #4682B4!important;
+            background-color: #46a5b4!important;
             color: white;
             width:260px;
             height:60px;
