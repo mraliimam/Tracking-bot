@@ -9,11 +9,6 @@ from functools import wraps
 from market.static.scrapper import *
 import json
 
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'db'}
-
-
 def auth(form):
     user = User.query.filter_by(username=form.username.data).first()
     if user and user.check_password_correction(attempted_password=form.password.data):
@@ -45,29 +40,6 @@ def signup_page():
             db.session.add(user)
             db.session.commit()
             return 'Pass'
-
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return 'No file part'
-        file = request.files['file']
-        if file.filename == '':
-            return 'No selected file'
-        if file and allowed_file(file.filename):
-            file.save(os.path.join('/var/data/', 'scrapper.db'))
-            return 'File uploaded successfully'
-    return '''
-    <!doctype html>
-    <title>Upload DB File</title>
-    <h1>Upload SQLite Database</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
