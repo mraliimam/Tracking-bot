@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
-    role = db.Column(db.String(), nullable = False, default = 'user')
+    role = db.Column(db.String(), nullable=False, default='user')
 
     @property
     def password(self):
@@ -21,9 +21,8 @@ class User(db.Model, UserMixin):
     def password(self, plain_text_password):
         self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
 
-    def check_password_correction(self, attempted_password):        
+    def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
-    
 
 class ScrapeData(db.Model):
     from datetime import datetime
@@ -31,11 +30,11 @@ class ScrapeData(db.Model):
     new_york_date = datetime.now(pytz.timezone('America/New_York')).date()
 
     id = db.Column(db.Integer(), primary_key=True)
-    BusinessName = db.Column(db.String())
-    NickName = db.Column(db.String())
-    URL = db.Column(db.String(), nullable = False)
-    Date = db.Column(db.Date(), nullable = False, default = new_york_date)
-    ReviewsCount = db.Column(db.Integer(), default = 0)
-    # Review = db.Column(db.Integer(), nullable = False)
+    business_name = db.Column(db.String(), nullable=True)
+    nick_name = db.Column(db.String(), nullable=True)
+    url = db.Column(db.String(), nullable=False)
+    date = db.Column(db.Date(), nullable=False, default=new_york_date)
+    reviews_count = db.Column(db.Integer(), default=0)
+    # review = db.Column(db.Integer(), nullable=False)
     
 # db.create_all()

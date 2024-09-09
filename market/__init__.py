@@ -6,7 +6,7 @@ import os
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:////var/data/scrapper.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://steven:6NTm7QeNrdSKVZ6jjyW8y45kFaIeiLYX@dpg-crflt83v2p9s73csj1e0-a/tracking_bot_sql'
 app.config['SECRET_KEY'] = 'ec9439cfc6c796ae2029594d'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['USE_ROLE_PERMISSIONS'] = False
