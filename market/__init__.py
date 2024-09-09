@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import os
 
-DB_ROOT = os.path.join('/', 'var', 'data')  # This points to /var/data
+DB_ROOT = os.path.join(os.sep, 'var', 'data')  # os.sep is '/' in Unix-like systems
 DATABASE_PATH = os.path.join(DB_ROOT, 'scrapper.db')
 
 app = Flask(__name__)
