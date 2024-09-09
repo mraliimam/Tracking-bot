@@ -37,4 +37,4 @@ class ScrapeData(db.Model):
     reviews_count = db.Column(db.Integer(), default=0)
     # review = db.Column(db.Integer(), nullable=False)
     
-# db.create_all()
+db.create_all()
