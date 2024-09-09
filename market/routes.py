@@ -8,6 +8,7 @@ from flask_login import login_user
 from functools import wraps
 from market.static.scrapper import *
 import json
+from market import current_path
 
 
 def allowed_file(filename):
@@ -53,7 +54,7 @@ def upload_file():
         if file.filename == '':
             return 'No selected file'
         if file and allowed_file(file.filename):
-            file.save(os.path.join('/var/data/', 'scrapper.db'))
+            file.save(os.path.join(current_path,'/var/data/', 'scrapper.db'))
             return 'File uploaded successfully'
     return '''
     <!doctype html>
