@@ -98,11 +98,13 @@ def home_page():
 
         cols = ScrapeData.__table__.columns.keys()
         businesses_reviews_dates = {
-            (ScrapeData.query.filter_by(url=url).first().business_name, ScrapeData.query.filter_by(url=url).first().url, ScrapeData.query.filter_by(url=url).first().nick_name): zip(review_count_dict[url], dates) for url in url_of_businesses
+            (ScrapeData.query.filter_by(url=url).first().business_name, ScrapeData.query.filter_by(url=url).first().url, ScrapeData.query.filter_by(url=url).first().nick_name, ScrapeData.query.filter_by(url=url).first().category): zip(review_count_dict[url], dates) for url in url_of_businesses
         }
 
         return render_template('home.html', items=items, dates=dates, cols=cols, reviewList=review_count_dict, businesses_reviews_dates=businesses_reviews_dates)
     if request.method == 'POST':
+        category = request.form['category']
+        print(category)
         action_type = request.form['actionType']
         changes = json.loads(request.form['changes']) if action_type in ('editDates', 'editReviews', 'editNickName') else None
 
@@ -117,7 +119,7 @@ def home_page():
                     db.session.add(data_exist)
                     db.session.commit()
                 else:
-                    data = ScrapeData(url=url, business_name=business_name, reviews_count=reviews_count)
+                    data = ScrapeData(url=url, business_name=business_name, reviews_count=reviews_count, category = category)
                     db.session.add(data)
                     try:
                         db.session.commit()
@@ -172,7 +174,7 @@ def home_page():
                         scrape_data = ScrapeData.query.filter_by(url=url).first()
                         if scrape_data:
                             date_format = date_item.split('-')
-                            new_scrape = ScrapeData(url=scrape_data.url, business_name=scrape_data.business_name, date=datetime.date(int(date_format[0]), int(date_format[1]), int(date_format[2])), reviews_count=review)
+                            new_scrape = ScrapeData(url=scrape_data.url, business_name=scrape_data.business_name, date=datetime.date(int(date_format[0]), int(date_format[1]), int(date_format[2])), reviews_count=review, category = category)
                             db.session.add(new_scrape)
             db.session.commit()
             return redirect(url_for('home_page'))
@@ -210,23 +212,29 @@ def form_page():
         return render_template('form.html', form=form)
 
     if request.method == 'POST':
-        form.business_name.data, form.reviews_count.data = scrapperFunction(form.url.data)
+        form.BusinessName.data, form.ReviewsCount.data = scrapperFunction(form.url.data)
 
-        if None in (form.business_name.data, form.reviews_count.data):
-            if form.business_name.data:
-                form.reviews_count.data = 0
+        if None in (form.BusinessName.data, form.ReviewsCount.data):
+            if form.BusinessName.data:
+                form.ReviewsCount.data = 0
             else:
                 flash('Data cannot be scrapped!', category='danger')
                 return redirect(url_for('form_page'))
 
         data_exist = ScrapeData.query.filter_by(date=new_york_date, url=form.url.data).first()
         if data_exist:
-            data_exist.reviews_count = form.reviews_count.data
+            data_exist.reviews_count = form.ReviewsCount.data
             db.session.add(data_exist)
             db.session.commit()
             return redirect(url_for('form_page'))
         else:
-            data = ScrapeData(**form_to_dict(form))
+            # data = ScrapeData(**form_to_dict(form))
+            data = ScrapeData(
+                business_name = form.BusinessName.data,
+                url = form.url.data,
+                reviews_count = form.ReviewsCount.data,
+                category = form.category.data
+            )
             db.session.add(data)
             try:
                 db.session.commit()

@@ -55,6 +55,9 @@
                 Nick Name
               </th>
               <th>
+                Category
+              </th>
+              <th>
                 Action
               </th>
               {% for date in dates %}
@@ -77,9 +80,11 @@
             <tr>                            
               <td><a href="{{ business[1] }}" target="_blank">{{ business[0] }}</a></td>
               <td data-business="{{ business[1] }}">{{ business[2] }}</td>
+              <td>{{ business[3] }}</td>
               <td>
                 <div class="row">
                   <div class="col">
+                    <input type="hidden" name="category" value = "{{ business[3] }}">
                     <button type="submit" name = "business" class="btn btn-success" onclick="document.getElementById('actionType').value = 'getBusiness';" value="{{ business[1] }}">Get Reviews</button>
                   </div>
                   <div class="col"><button type="submit" name = "business" class="btn btn-danger" onclick="document.getElementById('actionType').value = 'delBusiness';" value="{{ business[1] }}">Delete</button></div>
